@@ -2,8 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Star } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import { useToast } from "@/hooks/use-toast";
 
 interface ProductCardProps {
+  id: number | string;
   name: string;
   description: string;
   price: string;
@@ -16,6 +19,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ 
+  id,
   name, 
   description, 
   price, 
@@ -26,6 +30,16 @@ const ProductCard = ({
   features, 
   isPopular 
 }: ProductCardProps) => {
+  const { addItem } = useCart();
+  const { toast } = useToast();
+
+  const handleAddToCart = () => {
+    addItem({ id: String(id), name, price, category });
+    toast({
+      title: "Produit ajouté au panier",
+      description: `${name} a été ajouté à votre demande de devis.`,
+    });
+  };
   return (
     <Card className="group hover:shadow-elegant transition-smooth transform hover:-translate-y-2 relative overflow-hidden">
       {isPopular && (
@@ -94,7 +108,7 @@ const ProductCard = ({
       </CardContent>
 
       <CardFooter className="p-6 pt-0 space-y-3">
-        <Button variant="energy" className="w-full group">
+        <Button variant="energy" className="w-full group" onClick={handleAddToCart}>
           <ShoppingCart className="h-4 w-4 mr-2 group-hover:scale-110 transition-smooth" />
           Ajouter au panier
         </Button>

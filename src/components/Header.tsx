@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, Phone, Menu } from "lucide-react";
 import { useState } from "react";
+import { useCart } from "@/contexts/CartContext";
+import CartModal from "@/components/CartModal";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { items } = useCart();
 
   return (
     <header className="bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-50">
@@ -40,10 +43,22 @@ const Header = () => {
 
           {/* Action Buttons */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon">
-              <ShoppingCart className="h-5 w-5" />
-            </Button>
-            <Button variant="energy" size="sm" className="hidden sm:flex">
+            <CartModal>
+              <Button variant="ghost" size="icon" className="relative">
+                <ShoppingCart className="h-5 w-5" />
+                {items.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {items.length}
+                  </span>
+                )}
+              </Button>
+            </CartModal>
+            <Button 
+              variant="energy" 
+              size="sm" 
+              className="hidden sm:flex"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               <Phone className="h-4 w-4 mr-2" />
               Devis Gratuit
             </Button>
@@ -76,7 +91,12 @@ const Header = () => {
               <a href="#contact" className="text-foreground hover:text-primary transition-smooth py-2">
                 Contact
               </a>
-              <Button variant="energy" size="sm" className="mt-2">
+              <Button 
+                variant="energy" 
+                size="sm" 
+                className="mt-2"
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              >
                 <Phone className="h-4 w-4 mr-2" />
                 Devis Gratuit
               </Button>

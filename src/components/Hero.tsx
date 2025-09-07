@@ -56,11 +56,20 @@ const Hero = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="hero" size="lg" className="group">
+              <Button 
+                variant="hero" 
+                size="lg" 
+                className="group"
+                onClick={() => document.getElementById('produits')?.scrollIntoView({ behavior: 'smooth' })}
+              >
                 Découvrir nos produits
                 <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-smooth" />
               </Button>
-              <Button variant="outline" size="lg">
+              <Button 
+                variant="outline" 
+                size="lg"
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              >
                 Devis personnalisé
               </Button>
             </div>
